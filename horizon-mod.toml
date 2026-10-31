@@ -1,0 +1,8 @@
+id = "appleskin"
+name = "AppleSkin"
+version = "1.0.0"
+authors = ["Xber"]
+description = "Menampilkan nilai saturasi makanan di layar"
+capabilities = ["game-read", "hud"]
+api = "0.1"
+game = "26.3"
