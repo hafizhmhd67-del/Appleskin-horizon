@@ -17,14 +17,17 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
 
+      - name: Install wasm-tools (Component Builder)
+        uses: bytecodealliance/actions/wasm-tools/setup@v1
+
       - name: Compile ke WebAssembly
         run: cargo build --target wasm32-unknown-unknown --release
 
-      - name: Bungkus menjadi HMOD
+      - name: Bungkus Menjadi Wasm Component
         run: |
           mkdir -p dist
           cp horizon-mod.toml dist/
-          cp target/wasm32-unknown-unknown/release/appleskin.wasm dist/mod.wasm
+          wasm-tools component new target/wasm32-unknown-unknown/release/appleskin.wasm -o dist/mod.wasm
           cd dist
           zip -r ../appleskin.hmod *
           cd ..
