@@ -12,19 +12,28 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Rust dengan WASM
+      - name: Setup Rust & WASM Target
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
 
-      - name: Install Alat Resmi Horizon
-        run: cargo install --git https://github.com/horizon-rust/horizon cargo-horizon-mod
+      - name: Install wasm-tools
+        uses: bytecodealliance/actions/wasm-tools/setup@v1
 
-      - name: Rakit HMOD Otomatis
-        run: cargo horizon-mod build --release
+      - name: Compile Mod
+        run: cargo build --target wasm32-unknown-unknown --release
 
-      - name: Upload HMOD Siap Pakai
+      - name: Bungkus Jadi Wasm Component
+        run: |
+          mkdir -p dist
+          cp horizon-mod.toml dist/
+          wasm-tools component new target/wasm32-unknown-unknown/release/appleskin.wasm -o dist/mod.wasm
+          cd dist
+          zip -r ../appleskin.hmod *
+          cd ..
+
+      - name: Upload Mod Siap Pakai
         uses: actions/upload-artifact@v4
         with:
           name: AppleSkin-Horizon
-          path: target/horizon-mod/*.hmod
+          path: appleskin.hmod
