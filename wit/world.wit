@@ -1,0 +1,10 @@
+package horizon:mods@0.1.0;
+
+interface events {
+    init: func();
+    frame: func();
+}
+
+world mod-world {
+    export events;
+}
