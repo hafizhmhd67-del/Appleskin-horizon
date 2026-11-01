@@ -1,27 +1,20 @@
-use horizon_mod_sdk::*;
+// Hubungkan dengan definisi world.wit
+wit_bindgen::generate!({
+    world: "mod-world",
+    path: "wit",
+});
 
-pub struct AppleSkinMod;
+struct AppleSkin;
 
-impl Mod for AppleSkinMod {
-    fn init(&mut self) {
-        log::info("AppleSkin Horizon aktif!");
+// Mengisi pintu gerbang horizon:mods/events@0.1.0
+impl exports::horizon::mods::events::Guest for AppleSkin {
+    fn init() {
+        // Inisialisasi saat game dibuka
     }
 
-    fn frame(&mut self) {
-        if let Some(player) = game::get_local_player() {
-            let hunger = player.hunger();
-            let sat = player.saturation();
-            let text = format!("🍗 {} | Sat: {:.1}", hunger, sat);
-            hud::draw_text(
-                &text,
-                hud::Anchor::BottomRight,
-                -110,
-                -45,
-                hud::Color::GOLD,
-            );
-        }
+    fn frame() {
+        // Logika render AppleSkin di layar
     }
 }
 
-// Makro ini yang otomatis menyambungkan ke 'horizon:mods/events@0.1.0'
-export_mod!(AppleSkinMod);
+export!(AppleSkin);
