@@ -1,8 +1,18 @@
 package horizon:mods@0.1.0;
 
 interface events {
-    init: func();
-    frame: func();
+    record registration {
+        commands: list<string>,
+        tick: bool,
+        frame: bool,
+        chat: bool,
+    }
+
+    init: func() -> result<registration, string>;
+    tick: func(tick: u64);
+    frame: func(seconds: f32);
+    command: func(name: string, args: string) -> result<option<string>, string>;
+    chat: func(line: string) -> result<option<string>, string>;
 }
 
 world mod-world {
