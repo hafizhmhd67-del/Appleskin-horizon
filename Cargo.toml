@@ -7,4 +7,5 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-horizon-mod-sdk = { git = "https://github.com/horizon-rust/horizon" }
+# Kita gunakan wit-bindgen resmi untuk membuat jembatan event Horizon
+wit-bindgen = "0.36.0"
